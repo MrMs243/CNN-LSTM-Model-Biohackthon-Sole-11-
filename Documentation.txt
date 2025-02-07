@@ -1,0 +1,103 @@
+Documentation for Hybrid CNN + LSTM Model "Biohackthon Sole 11"
+This documentation provides an overview of our model, including data preprocessing, model architecture, training process and evaluation.
+
+1. Project Overview
+This project builds a Hybrid CNN + LSTM Model for SARS-CoV-2 variant classification based on genomic signatures. The model combines Convolutional Neural Networks (CNNs) for feature extraction and Long Short-Term Memory Networks (LSTMs) for sequential pattern recognition.
+------------------------------------------------------------------------------------------
+2. Data Preprocessing
+Files Used
+	train.csv → Training dataset.
+	test_features.csv → Testing dataset.
+Preprocessing Steps
+	1-Load Data
+	
+	Reads training and test data from CSV files using pandas.
+
+	2-Feature Selection
+
+	Selects only numeric features for model input.
+
+	3-Label Encoding
+
+	Converts target labels (variants) into numerical format using LabelEncoder().
+
+	4-Class Balancing
+
+	Uses SMOTE (Synthetic Minority Oversampling Technique) to balance class distribution.
+
+	5-Feature Scaling
+
+	Standardizes input features using StandardScaler() to improve model convergence.
+
+	6-Data Splitting
+
+	Splits the dataset into 80% training and 20% validation using train_test_split().
+------------------------------------------------------------------------------------------
+3. Model Architecture
+This model integrates CNN and LSTM layers to leverage both spatial and sequential dependencies in genomic data.
+
+Architecture Breakdown
+1-CNN Layers
+	Conv1D (64 filters, kernel size = 3, ReLU)
+	Conv1D (128 filters, kernel size = 3, ReLU)
+	MaxPooling1D (pool size = 2)
+	Flatten Layer (converts feature maps into a 1D vector)
+
+2-LSTM Layers
+	Reshapes data for LSTM compatibility.
+	LSTM (128 units, return_sequences=True)
+	LSTM (64 units)
+
+3-Fully Connected Layers
+	Dense (128 neurons, ReLU)
+	Dropout (rate = 0.3) for regularization.
+	Output Layer (Softmax Activation) → Classifies input into multiple SARS-CoV-2 variants.
+------------------------------------------------------------------------------------------
+4. Model Compilation & Training
+
+Compilation
+	Loss Function: sparse_categorical_crossentropy (suitable for multi-class classification).
+	Optimizer: Adam(learning_rate=0.001) (adaptive optimization).
+	Evaluation Metric: accuracy.
+
+Training
+	EarlyStopping: Stops training when validation loss does not improve for 5 consecutive epochs.
+	ReduceLROnPlateau: Reduces the learning rate if validation loss stagnates, improving model stability.
+------------------------------------------------------------------------------------------
+5. Model Evaluation
+
+Classification Report
+	Generates a classification report with precision, recall, and F1-score.
+AUC-ROC Curve
+	Evaluates the model’s ability to distinguish between different SARS-CoV-2 variants.
+------------------------------------------------------------------------------------------
+6. Improvements & Future Work
+
+✅ Strengths
+	Combines CNN + LSTM for feature extraction and sequential modeling.
+	Handles class imbalance using SMOTE.
+	Optimized training process with early stopping and adaptive learning rate.
+🔹 Potential Enhancements
+	Hyperparameter tuning with Keras Tuner to optimize architecture.
+	Cross-validation to improve generalization.
+	Feature importance analysis using SHAP for model interpretability.
+	Comparison with Transformer-based models (e.g., BioBERT, LSTNet).
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+⣶⣶⣶⣶⣶⣖⣒⡄⠀⣶⡖⠲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⠠⡄⠀⠀⠀⠀
+⠙⠛⣿⣿⣿⡟⠛⠃⢀⣿⣿⣆⣦⣴⠂⠤⠀⠀⠀⣠⣤⣴⣆⠠⢄⠀⠀⠀⣤⡤⢤⣤⣤⠤⢄⠀⠀⢻⣿⣦⡇⢀⣤⢤⠀
+⠀⢀⣿⣿⣿⡇⠀⠀⢸⣿⣿⣿⠛⣿⣷⣄⡇⠀⣼⣿⣿⡟⢿⣷⡄⣣⠀⢘⣿⣿⣿⠿⣿⣧⣈⡆⠀⢹⣿⣿⣷⣾⣧⣴⠀
+⠀⢰⣿⣿⣿⠀⠀⠀⢸⣿⣿⣿⠀⣿⣿⣿⡇⠀⠙⠛⣻⣧⣾⣿⣿⡷⠀⢸⣿⣿⣿⠀⣿⣿⣿⡇⠀⢸⣿⣿⣿⣿⣿⡇⠀
+⠀⢸⣿⣿⣿⠀⠀⠀⢸⣿⣿⡿⠀⣿⣿⣿⠃⠀⣰⣾⣿⡿⣿⣿⣿⣟⠀⢸⣿⣿⣿⠀⣿⣿⣿⡇⠀⢸⣿⣿⣿⣿⡏⢇⠀
+⠀⣼⣿⣿⣿⠀⠀⠀⣸⣿⣿⣟⢠⣿⣿⣿⠀⠀⣿⣿⡟⣇⣾⣿⣿⣯⠀⢸⣿⣿⣿⠀⣿⣿⣿⡇⠀⢼⣿⣿⣿⣿⣷⡈⡀
+⠀⠻⠿⠿⠟⠀⠀⠀⠻⠿⠿⠏⠸⣿⣿⣿⠀⠀⢿⣿⣿⣿⣿⣿⣿⡇⠀⢸⣿⣿⣿⠀⣿⣿⣿⡇⠀⣿⣿⣿⡟⢻⣿⣧⣇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠉⠉⠀⠀⠀⠉⠉⠁⠀⠉⠉⠉⠀⠀⠘⠙⠋⠁⠈⠋⠛⠉
+⠀⠀⠀⠀⠀⠀⢀⣠⣤⡀⠀⢀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡤⠠⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢹⣿⣄⠱⣠⣿⣧⣴⠀⠀⣠⣤⣤⣀⣀⡀⠀⠀⢀⣤⠤⡀⢀⣠⡤⢄⠀⠈⣿⣿⣦⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⢿⣿⣷⣿⣿⣿⡏⠀⣾⣿⣿⣿⣶⣄⡉⡄⠀⣿⣿⣤⣝⢸⣿⣦⣼⠀⠀⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⠏⠀⠐⣿⣿⣿⠉⣿⣿⣷⡇⠀⣽⣿⣿⣯⢸⣿⣿⣿⠀⠀⢹⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⠀⠀⢠⣿⣿⣿⠀⣿⣿⣿⡇⠀⣻⣿⣿⡷⢸⣿⣿⣿⠀⠀⢸⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⠀⠀⠀⢿⣿⣿⣄⣿⣿⣿⠇⠀⢹⣿⣿⣿⣸⣿⣿⣿⠀⠀⢠⣽⣧⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠛⠋⠀⠀⠀⠈⠛⠛⠛⠛⠛⠉⠀⠀⠈⠛⠛⠛⠋⠛⠛⠋⠀⠀⠈⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀

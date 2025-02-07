@@ -1,0 +1,95 @@
+# **Instructions to Run the CNN + LSTM Model Training Script**
+
+## **Prerequisites**
+Before running the script, ensure that you have the required dependencies installed. You can install them using the following command:
+
+```bash
+		pip install tensorflow pandas numpy scikit-learn imbalanced-learn matplotlib argparse
+```
+
+## **Script Overview**
+The script trains and evaluates a CNN + LSTM model using a user-specified training dataset and test dataset. It:
+- Loads and preprocesses the data
+- Builds a hybrid CNN + LSTM model
+- Trains the model with early stopping and learning rate reduction
+- Evaluates model performance using classification reports and AUC-ROC curves
+- Saves the trained model and predictions to files
+
+## **How to Run the Script**
+### **1. Open the Terminal**
+Navigate to the directory where the script is located.
+
+### **2. Run the Script with File Paths**
+Use the following command to run the script, replacing `<path_to_train.csv>` and `<path_to_test.csv>` with the actual file paths:
+
+```bash
+		python train_model.py --train_path "<path_to_train.csv>" --test_path "<path_to_test.csv>"
+```
+
+### **Example Usage**
+If your dataset files are stored in the `datasets` folder, run:
+
+```bash
+		python train_model.py --train_path "datasets/train.csv" --test_path "datasets/test_features.csv"
+```
+
+## **Outputs Generated**
+After running the script, the following files will be saved in the same directory:
+
+1. **`hybrid_cnn_lstm_model.h5`** → The trained deep learning model.
+2. **`test_predictions.csv`** → The test dataset predictions, containing:
+   - `ID` (from the test dataset)
+   - `Detected_Clade` (predicted class names, not numerical values)
+3. **`auc_roc_curve.png`** → AUC-ROC Curve visualization.
+4. **`validation_loss.png`** → Training vs. Validation Loss visualization.
+
+## **Verifying the Outputs**
+### **Check Model File**
+To verify the trained model exists, run:
+```bash
+		ls hybrid_cnn_lstm_model.h5
+```
+
+### **Check Predictions File**
+Open the predictions file using:
+```bash
+		cat test_predictions.csv
+```
+
+### **Check Graphs**
+You can open the generated graphs using any image viewer:
+```bash
+		open auc_roc_curve.png
+		open validation_loss.png
+```
+
+## **Troubleshooting**
+### **1. Command Not Found Error**
+Ensure that `python` is installed and available in your system path. Try using `python3` instead:
+```bash
+		python3 train_model.py --train_path "datasets/train.csv" --test_path "datasets/test_features.csv"
+```
+
+### **2. ModuleNotFoundError**
+If you see an error like `ModuleNotFoundError: No module named 'tensorflow'`, ensure you have installed all required dependencies:
+```bash
+		pip install tensorflow pandas numpy scikit-learn imbalanced-learn matplotlib argparse
+```
+
+### **3. File Not Found Error**
+Check that the dataset paths are correct. Use absolute paths if necessary:
+```bash
+		python train_model.py --train_path "/Users/username/Documents/datasets/train.csv" --test_path "/Users/username/Documents/datasets/test_features.csv"
+```
+
+## **Next Steps**
+Once the model is trained, you can:
+- Use the trained model for further predictions.
+- Improve accuracy by tuning hyperparameters like epochs.
+- Experiment with different CNN and LSTM architectures.
+
+For any further modifications, edit the `train_model.py` file.
+
+---
+**End of Document**
+
